@@ -1,0 +1,13 @@
+name = "PromotedServer"
+filename = "PromotedServer-1.2.1.jar"
+side = "client"
+
+[download]
+url = "https://cdn.modrinth.com/data/6GXZe11O/versions/RHed3WVD/PromotedServer-1.2.1.jar"
+hash-format = "sha512"
+hash = "d497e13410b902f93dd36df645155b271d3f177b73cd7b9c0c2db3d87151ecca0f7ff0a27df79f6a4c16bfee45c257871e1598c775a91752992081f26572ea08"
+
+[update]
+[update.modrinth]
+mod-id = "6GXZe11O"
+version = "RHed3WVD"

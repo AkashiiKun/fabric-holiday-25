@@ -1,6 +1,15 @@
 hash-format = "sha256"
 
 [[files]]
+file = "config/promotedserver/servers.dat"
+hash = "2065c37b24ba0658d9d2a181632952f447caf3c0fd004d7393a17984d73a3f3b"
+
+[[files]]
 file = "mods/fabric-api.pw.toml"
-hash = "6b0a404f9b073c479355117ed7083693c8c1014677135c1764c38ece846ee3cb"
+hash = "78568b988a30084520820c45d6f03de3442eca5800d77e870879200af28b5bc2"
+metafile = true
+
+[[files]]
+file = "mods/promotedserver.pw.toml"
+hash = "c95fe5b450d8eded1af2733a7b5b647ac63baaf8c5aa4cd00da3a7278127e124"
 metafile = true
