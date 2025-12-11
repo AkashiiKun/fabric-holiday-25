@@ -6,15 +6,15 @@ hash = "2065c37b24ba0658d9d2a181632952f447caf3c0fd004d7393a17984d73a3f3b"
 
 [[files]]
 file = "mods/fabric-api.pw.toml"
-hash = "78568b988a30084520820c45d6f03de3442eca5800d77e870879200af28b5bc2"
+hash = "6105a557df9c7e66224bb8f710f839295b0b13bd027d1e516baca10a47e8e489"
 metafile = true
 
 [[files]]
 file = "mods/grind-enchantments.pw.toml"
-hash = "cf02576d2c671002b52daaa19a35a640d6dac3ee9c52e7af0cbf6d8385f0da25"
+hash = "575df9a354a2006f7287610b1e8c9111ebb89c2db6dbab34256db6e6870bc927"
 metafile = true
 
 [[files]]
 file = "mods/promotedserver.pw.toml"
-hash = "c95fe5b450d8eded1af2733a7b5b647ac63baaf8c5aa4cd00da3a7278127e124"
+hash = "cc53ad43e9b83e554e2ab1991aaa259151a30db78d14e1f011be6391d2a90f2c"
 metafile = true
