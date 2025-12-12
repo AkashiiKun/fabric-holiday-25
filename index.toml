@@ -5,6 +5,23 @@ file = "config/promotedserver/servers.dat"
 hash = "2065c37b24ba0658d9d2a181632952f447caf3c0fd004d7393a17984d73a3f3b"
 
 [[files]]
+file = "mods/ChainStyleWither-1.7.0.jar"
+hash = "277a8ecd287fcbe905d70c6fa707b880bd928b67ff4204295443bf8f5bf6dbed"
+
+[[files]]
+file = "mods/Holiday-1.0.jar"
+hash = "3c209ed7634bfe201a25c0e5ad85c8995738e8c81c7496856871a2d2c79e5f0d"
+
+[[files]]
+file = "mods/apothicspawners-0.0.1.jar"
+hash = "22aa6af06401c3dbf78b4828b8672f39bca33d1d668cac770ca486998324725c"
+
+[[files]]
+file = "mods/cloth-config.pw.toml"
+hash = "8a2c564b4b7b8ce6642c25d517920ac12199a09c57ee850044276185f491a84a"
+metafile = true
+
+[[files]]
 file = "mods/crossbow_scoping.pw.toml"
 hash = "43e86c3651f84ce92b8ec42a631e675fb35b500143cef8a41c7ec76ecf895160"
 metafile = true
