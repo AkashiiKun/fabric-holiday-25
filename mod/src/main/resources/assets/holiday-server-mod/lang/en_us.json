@@ -37,5 +37,7 @@
   "item.holiday-server-mod.tater_banner_pattern": "Tater Banner Pattern",
   "block.holiday-server-mod.tiny_potato": "Tiny Potato",
   "item.holiday-server-mod.absolutely_safe_armor": "Absolutely Safe Armor",
-  "item.holiday-server-mod.absolutely_safe_armor.exit_tooltip": "You are absolutely safe."
+  "item.holiday-server-mod.absolutely_safe_armor.exit_tooltip": "You are absolutely safe.",
+  "painting.holiday-server-mod.outdated.title": "Outdated",
+  "painting.holiday-server-mod.outdated.author": "Fabric Contributors"
 }
