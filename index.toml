@@ -105,6 +105,10 @@ file = "mods/superb-steeds.pw.toml"
 metafile = true
 
 [[files]]
+file = "mods/universal-graves.pw.toml"
+metafile = true
+
+[[files]]
 file = "mods/wthit.pw.toml"
 metafile = true
 
