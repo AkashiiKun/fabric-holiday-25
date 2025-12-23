@@ -1,6 +1,12 @@
 hash-format = "sha256"
 
 [[files]]
+file = ".editorconfig"
+
+[[files]]
+file = "config/extended_drawers.json"
+
+[[files]]
 file = "config/promotedserver/servers.dat"
 
 [[files]]
@@ -39,6 +45,9 @@ metafile = true
 [[files]]
 file = "mods/crossbow_scoping.pw.toml"
 metafile = true
+
+[[files]]
+file = "mods/eiv-fabric-5.2.0+1.21.11.jar"
 
 [[files]]
 file = "mods/ellies-storage-options.pw.toml"
