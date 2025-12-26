@@ -1,13 +1,13 @@
 name = "StrawberryLib"
-filename = "strawberrylib-1.21.11-r3.jar"
+filename = "strawberrylib-1.21.11-r4.jar"
 side = "both"
 
 [download]
-url = "https://cdn.modrinth.com/data/9Ya7Yyre/versions/8IsFiH8b/strawberrylib-1.21.11-r3.jar"
+url = "https://cdn.modrinth.com/data/9Ya7Yyre/versions/5XnDlrHT/strawberrylib-1.21.11-r4.jar"
 hash-format = "sha512"
-hash = "f45d78fdcb2fcecfd183799e4830b7393b158f9a56e6997fa5cdb939fc2b0e20d0b9037433f4b6b10c7ea97e2b9bae74c01bf2c0c18cb4e85e22a0acbd7d34cc"
+hash = "f934724b5b7c7b0b6d8e33dd23564ebe8922342f8ce5fdf4dd3b7c099ff2bd6efc0f4187ecf7850217575dd3fa6fd1655b3106365c27a0cb57a00d98c2a80ecc"
 
 [update]
 [update.modrinth]
 mod-id = "9Ya7Yyre"
-version = "8IsFiH8b"
+version = "5XnDlrHT"

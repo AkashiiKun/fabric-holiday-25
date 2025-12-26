@@ -31,6 +31,9 @@ public final class HolidayServerItems {
     public static final Item FABRIC_PATTERN_ITEM = register("fabric_banner_pattern", new Item.Settings().maxCount(1).component(DataComponentTypes.PROVIDES_BANNER_PATTERNS, HolidayServerBannerPatternTags.FABRIC_PATTERN_ITEM));
     public static final Item TATER_PATTERN_ITEM = register("tater_banner_pattern", new Item.Settings().maxCount(1).component(DataComponentTypes.PROVIDES_BANNER_PATTERNS, HolidayServerBannerPatternTags.TATER_PATTERN_ITEM));
 
+    public static final Item HOPPER_MITE = register("hopper_mite", settings -> new HopperMiteItem(settings
+        .maxCount(1)));
+
     public static final Item ABSOLUTELY_SAFE_ARMOR = register("absolutely_safe_armor", new Item.Settings()
         .maxCount(1)
         .component(HolidayServerDataComponentTypes.ABSOLUTELY_SAFE, Unit.INSTANCE)
@@ -75,6 +78,7 @@ public final class HolidayServerItems {
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.REDSTONE).register(entries -> {
+            entries.addAfter(Items.HOPPER, HOPPER_MITE);
             entries.addAfter(Items.REDSTONE_BLOCK, REDSTONE_SAND);
         });
     }
