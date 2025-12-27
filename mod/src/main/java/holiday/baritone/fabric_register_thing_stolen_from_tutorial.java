@@ -1,4 +1,4 @@
-package holiday.mod;
+package holiday.baritone;
 
 import holiday.CommonEntrypoint;import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;

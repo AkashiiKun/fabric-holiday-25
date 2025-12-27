@@ -1,4 +1,4 @@
-package holiday.mod;
+package holiday.baritone;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -8,8 +8,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.slf4j.LoggerFactory;
-
-import java.util.Set;
 
 public class BARITONE extends Item {
     public BARITONE(Settings settings) {

@@ -1,7 +1,6 @@
-package holiday.mod;
+package holiday.baritone;
 
 import holiday.CommonEntrypoint;
-import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundEvent;

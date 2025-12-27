@@ -1,4 +1,4 @@
-package holiday.mod;
+package holiday.baritone;
 
 import net.minecraft.util.math.MathHelper;
 
