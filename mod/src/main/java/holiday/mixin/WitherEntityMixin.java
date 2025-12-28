@@ -7,7 +7,6 @@ import holiday.idkwheretoputthis.WitherEntityExtension;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.boss.WitherEntity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.projectile.WitherSkullEntity;
 import net.minecraft.particle.ParticleEffect;
@@ -110,7 +109,7 @@ public abstract class WitherEntityMixin extends HostileEntity implements WitherE
         }
     }
 
-    @WrapOperation(
+    @Redirect(
         method = "mobTick",
         at = @At(
             value = "FIELD",
@@ -119,20 +118,11 @@ public abstract class WitherEntityMixin extends HostileEntity implements WitherE
             ordinal = 0
         )
     )
-    private int overrideCooldown(WitherEntity instance, Operation<Integer> original) {
+    private int overrideCooldown(WitherEntity instance) {
         if (fabric_holiday_25$isInOverWorld()) {
             return 0;
         }
-        return original.call(instance);
-    }
-
-    // Conflicts with the WitherChainStyle mod, but seems to be fine
-    @Override
-    public void onDeath(DamageSource damageSource) {
-        if (fabric_holiday_25$isInOverWorld()) {
-            super.onDeath(damageSource);
-            return;
-        }
+        return this.blockBreakingCooldown;
     }
 
     @Override

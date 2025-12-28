@@ -57,10 +57,7 @@ dependencies {
 
 	modRuntimeOnly "maven.modrinth:more_than_a_foxbox:1.1.2+1.21.11"
   include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:0.3.7-beta.1")))
-  //modCompileOnly name: "ChainStyleWither", version: "1.7.0"
-  //modRuntimeOnly files("$rootProject.projectDir/libs/ChainStyleWither-1.7.0.jar")
-  //modCompileOnly files("$rootProject.projectDir/libs/ChainStyleWither-1.7.0.jar")
-  //modImplementation("$rootProject.projectDir/libs/ChainStyleWither-1.7.0.jar")
+
   modImplementation name: "ChainStyleWither", version: "1.7.0"
 }
 
