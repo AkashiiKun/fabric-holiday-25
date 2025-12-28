@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import holiday.block.HolidayServerBlocks;
 import holiday.block.blockentity.HolidayServerBlockEntities;
 import holiday.component.HolidayServerDataComponentTypes;
+import holiday.entity.HolidayServerEntities;
 import holiday.entity.effect.HolidayServerEffects;
 import holiday.event.EndermanParalyzeEvent;
 import holiday.item.HolidayServerItems;
@@ -12,6 +13,7 @@ import holiday.sound.HolidayServerSoundEvents;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
+import net.fabricmc.fabric.api.gamerule.v1.GameRuleBuilder;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerConfigurationConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerConfigurationNetworking;
@@ -51,6 +53,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.rule.GameRule;
+import net.minecraft.world.rule.GameRuleCategory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,6 +79,9 @@ public class CommonEntrypoint implements ModInitializer {
             builder -> builder.initializer(() -> Boolean.FALSE).persistent(Codec.BOOL)
     );
 
+    private static final Identifier EPORTAL_GAMERULE_ID = identifier("endportal_enabled");
+    public static final GameRule<Boolean> EPORTAL_GAMERULE = GameRuleBuilder.forBoolean(false).category(GameRuleCategory.PLAYER).buildAndRegister(EPORTAL_GAMERULE_ID);
+
     public static final FeatureSet FORCE_ENABLED_FEATURES = FeatureSet.of(FeatureFlags.MINECART_IMPROVEMENTS);
 
     @Override
@@ -86,6 +93,7 @@ public class CommonEntrypoint implements ModInitializer {
         HolidayServerSoundEvents.register();
         HolidayServerBlockEntities.register();
         HolidayServerEffects.register();
+        HolidayServerEntities.register();
 
         DispenserBehavior oldBucketBehavior = DispenserBlock.BEHAVIORS.get(Items.BUCKET);
         DispenserBehavior bucketBehavior = (pointer, stack) -> {
