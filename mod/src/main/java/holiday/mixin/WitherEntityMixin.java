@@ -7,6 +7,7 @@ import holiday.idkwheretoputthis.WitherEntityExtension;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.boss.WitherEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.projectile.WitherSkullEntity;
 import net.minecraft.particle.ParticleEffect;
@@ -21,7 +22,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(WitherEntity.class)
@@ -39,9 +39,6 @@ public abstract class WitherEntityMixin extends HostileEntity implements WitherE
 
     @Shadow
     protected abstract double getHeadY(int headIndex);
-
-    @Shadow
-    private int blockBreakingCooldown;
 
     @Inject(
         method = "shootSkullAt(IDDDZ)V",
@@ -109,7 +106,7 @@ public abstract class WitherEntityMixin extends HostileEntity implements WitherE
         }
     }
 
-    @Redirect(
+    @WrapOperation(
         method = "mobTick",
         at = @At(
             value = "FIELD",
@@ -118,11 +115,19 @@ public abstract class WitherEntityMixin extends HostileEntity implements WitherE
             ordinal = 0
         )
     )
-    private int overrideCooldown(WitherEntity instance) {
+    private int overrideCooldown(WitherEntity instance, Operation<Integer> original) {
         if (fabric_holiday_25$isInOverWorld()) {
             return 0;
         }
-        return this.blockBreakingCooldown;
+        return original.call(instance);
+    }
+
+    // Conflicts with the WitherChainStyle mod, but seems to be fine
+    @Override
+    public void onDeath(DamageSource damageSource) {
+        if (fabric_holiday_25$isInOverWorld()) {
+            super.onDeath(damageSource);
+        }
     }
 
     @Override
