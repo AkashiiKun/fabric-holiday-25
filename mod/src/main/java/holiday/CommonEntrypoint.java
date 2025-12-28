@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import holiday.block.HolidayServerBlocks;
 import holiday.block.blockentity.HolidayServerBlockEntities;
 import holiday.component.HolidayServerDataComponentTypes;
+import holiday.entity.HolidayServerEntities;
 import holiday.entity.effect.HolidayServerEffects;
 import holiday.event.EndermanParalyzeEvent;
 import holiday.item.HolidayServerItems;
@@ -92,6 +93,7 @@ public class CommonEntrypoint implements ModInitializer {
         HolidayServerSoundEvents.register();
         HolidayServerBlockEntities.register();
         HolidayServerEffects.register();
+        HolidayServerEntities.register();
 
         DispenserBehavior oldBucketBehavior = DispenserBlock.BEHAVIORS.get(Items.BUCKET);
         DispenserBehavior bucketBehavior = (pointer, stack) -> {
