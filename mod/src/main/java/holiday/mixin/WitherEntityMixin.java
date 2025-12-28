@@ -7,6 +7,7 @@ import holiday.idkwheretoputthis.WitherEntityExtension;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.boss.WitherEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.projectile.WitherSkullEntity;
 import net.minecraft.particle.ParticleEffect;
@@ -123,6 +124,14 @@ public abstract class WitherEntityMixin extends HostileEntity implements WitherE
             return 0;
         }
         return this.blockBreakingCooldown;
+    }
+
+    @Override
+    public void onDeath(DamageSource damageSource) {
+        if (fabric_holiday_25$isInOverWorld()) {
+            super.onDeath(damageSource);
+            return;
+        }
     }
 
     @Override
