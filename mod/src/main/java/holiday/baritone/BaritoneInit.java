@@ -17,6 +17,9 @@ public class BaritoneInit {
 				Identifier.of(CommonEntrypoint.MOD_ID,"baritone_sound"),
 				SoundEvent.of(Identifier.of(CommonEntrypoint.MOD_ID,"baritone_sound")));
 		BaritoneInit.BARITONE = fabric_register_thing_stolen_from_tutorial.зареєструвати("baritone", BARITONE::new);
-		BaritoneHud.старт();
 	}
+
+    public static void onInitializeClient(){
+        BaritoneHud.старт();
+    }
 }

@@ -1,5 +1,6 @@
 package holiday;
 
+import holiday.baritone.BaritoneInit;
 import holiday.block.HolidayServerBlocks;
 import holiday.client.render.HeartEntityModel;
 import holiday.client.render.HeartEntityRenderer;
@@ -49,6 +50,8 @@ public class ClientEntrypoint implements ClientModInitializer {
         ClientConfigurationNetworking.registerGlobalReceiver(CommonEntrypoint.RequestVersionPayload.ID, (payload, context) -> {
             context.responseSender().sendPacket(new CommonEntrypoint.VersionResponsePayload(CommonEntrypoint.CURRENT_VERSION));
         });
+
+        BaritoneInit.onInitializeClient();
 
         /*ScreenEvents.BEFORE_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
             if (screen instanceof TitleScreen) {
