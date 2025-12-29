@@ -6,9 +6,11 @@ import holiday.entity.HeartEntity;
 import holiday.idkwheretoputthis.WitherEntityExtension;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.WitherSkullEntity;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
@@ -120,6 +122,15 @@ public abstract class WitherEntityMixin extends HostileEntity implements WitherE
             return 0;
         }
         return original.call(instance);
+    }
+
+    @Override
+    public boolean canTarget(LivingEntity target) {
+        if (fabric_holiday_25$isInOverWorld() && target instanceof PlayerEntity) {
+            return false;
+        } else {
+            return super.canTarget(target);
+        }
     }
 
     // Conflicts with the WitherChainStyle mod, but seems to be fine
