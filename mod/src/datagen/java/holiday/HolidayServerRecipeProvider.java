@@ -79,6 +79,32 @@ public class HolidayServerRecipeProvider extends FabricRecipeProvider {
                     .criterion("has_dust", this.conditionsFromItem(HolidayServerItems.ECHO_DUST))
                     .offerTo(exporter);
 
+                this.createShaped(RecipeCategory.MISC, HolidayServerItems.GROUND_GRAVEL, 3)
+                    .input('F', Items.FLINT)
+                    .input('G', Items.GRAVEL)
+                    .input('B', Items.BOWL)
+                    .pattern("GFG")
+                    .pattern("GGG")
+                    .pattern("BBB")
+                    .criterion("has_flint", this.conditionsFromItem(Items.FLINT))
+                    .offerTo(exporter);
+
+                this.createShaped(RecipeCategory.MISC, HolidayServerItems.FINE_GRAVEL, 3)
+                    .pattern("WGW")
+                    .pattern("BBB")
+                    .input('G', HolidayServerItems.GROUND_GRAVEL)
+                    .input('W', Items.WATER_BUCKET)
+                    .input('B', Items.BOWL)
+                    .criterion("has_ground_gravel", this.conditionsFromItem(HolidayServerItems.GROUND_GRAVEL))
+                    .offerTo(exporter);
+
+                this.createShapeless(RecipeCategory.MISC, HolidayServerItems.STONE_MEAL, 9) // Result: 9 Stone Meal
+                    .input(HolidayServerItems.FINE_GRAVEL)
+                    .input(Items.WATER_BUCKET)
+                    .input(Items.BONE_MEAL)
+                    .criterion("has_fine_gravel", this.conditionsFromItem(HolidayServerItems.FINE_GRAVEL))
+                    .offerTo(exporter);
+
             }
         };
     }

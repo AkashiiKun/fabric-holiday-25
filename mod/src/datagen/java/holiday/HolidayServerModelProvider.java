@@ -5,11 +5,19 @@ import holiday.component.HolidayServerDataComponentTypes;
 import holiday.item.HolidayServerItems;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.minecraft.client.data.BlockStateModelGenerator;
-import net.minecraft.client.data.ItemModelGenerator;
-import net.minecraft.client.data.ItemModels;
-import net.minecraft.client.data.Models;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.client.data.*;
+import net.minecraft.client.render.model.json.ModelVariant;
+import net.minecraft.client.render.model.json.WeightedVariant;
 import net.minecraft.item.Item;
+import net.minecraft.state.property.Properties;
+import net.minecraft.state.property.Property;
+import net.minecraft.util.collection.Pool;
+import net.minecraft.util.math.Direction;
+
+import java.util.List;
+import java.util.Optional;
 
 public class HolidayServerModelProvider extends FabricModelProvider {
     public HolidayServerModelProvider(FabricDataOutput output) {
@@ -20,6 +28,8 @@ public class HolidayServerModelProvider extends FabricModelProvider {
     public void generateBlockStateModels(BlockStateModelGenerator generator) {
         generator.registerSimpleCubeAll(HolidayServerBlocks.REDSTONE_SAND);
         generator.registerNorthDefaultHorizontalRotatable(HolidayServerBlocks.TINY_POTATO);
+        this.registerHopper(generator, HolidayServerBlocks.GOLDEN_HOPPER);
+        this.registerPreModeledSingleton(generator, HolidayServerBlocks.ENDER_PARALYZER);
     }
 
     @Override
@@ -29,6 +39,9 @@ public class HolidayServerModelProvider extends FabricModelProvider {
         this.registerMite(generator, HolidayServerItems.HOPPER_MITE);
         generator.register(HolidayServerItems.TATER_PATTERN_ITEM, Models.GENERATED);
         generator.register(HolidayServerItems.ECHO_DUST, Models.GENERATED);
+        generator.register(HolidayServerItems.STONE_MEAL, Models.GENERATED);
+        generator.register(HolidayServerItems.FINE_GRAVEL, Models.GENERATED);
+        generator.register(HolidayServerItems.GROUND_GRAVEL, Models.GENERATED);
     }
 
     private void registerMite(ItemModelGenerator generator, Item item) {
@@ -37,5 +50,28 @@ public class HolidayServerModelProvider extends FabricModelProvider {
                 ItemModels.basic(generator.registerSubModel(item, "_food", Models.GENERATED)),
                 ItemModels.basic(generator.upload(item, Models.GENERATED))
         ));
+    }
+
+    private void registerHopper(BlockStateModelGenerator generator, Block block) {
+        WeightedVariant weightedVariant = BlockStateModelGenerator.createWeightedVariant(ModelIds.getBlockModelId(block));
+        WeightedVariant weightedVariant2 = BlockStateModelGenerator.createWeightedVariant(ModelIds.getBlockSubModelId(block, "_side"));
+        generator.registerItemModel(block.asItem());
+        generator.blockStateCollector
+            .accept(
+                VariantsBlockModelDefinitionCreator.of(Blocks.HOPPER)
+                    .with(
+                        BlockStateVariantMap.models(Properties.HOPPER_FACING)
+                            .register(Direction.DOWN, weightedVariant)
+                            .register(Direction.NORTH, weightedVariant2)
+                            .register(Direction.EAST, weightedVariant2.apply(BlockStateModelGenerator.ROTATE_Y_90))
+                            .register(Direction.SOUTH, weightedVariant2.apply(BlockStateModelGenerator.ROTATE_Y_180))
+                            .register(Direction.WEST, weightedVariant2.apply(BlockStateModelGenerator.ROTATE_Y_270))
+                    )
+            );
+    }
+
+    private void registerPreModeledSingleton(BlockStateModelGenerator generator, Block toRegister) {
+        generator.blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(toRegister, new WeightedVariant(Pool.of(new ModelVariant(ModelIds.getBlockModelId(toRegister))))));
+        generator.registerItemModel(toRegister.asItem(), ModelIds.getBlockModelId(toRegister));
     }
 }

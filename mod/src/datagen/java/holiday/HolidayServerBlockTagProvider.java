@@ -20,10 +20,18 @@ public class HolidayServerBlockTagProvider extends FabricTagProvider.BlockTagPro
         this.valueLookupBuilder(HolidayServerBlockTags.CRYING_IMPACTORS)
                 .add(Blocks.CRYING_OBSIDIAN);
 
+        this.valueLookupBuilder(HolidayServerBlockTags.STONE_MEALABLE)
+            .add(Blocks.POINTED_DRIPSTONE);
+
         this.valueLookupBuilder(BlockTags.AXE_MINEABLE)
                 .add(HolidayServerBlocks.TINY_POTATO);
 
         this.valueLookupBuilder(BlockTags.SHOVEL_MINEABLE)
                 .add(HolidayServerBlocks.REDSTONE_SAND);
+        this.valueLookupBuilder(BlockTags.PICKAXE_MINEABLE)
+                .add(HolidayServerBlocks.GOLDEN_HOPPER)
+                .add(HolidayServerBlocks.ENDER_PARALYZER);
+
+
     }
 }

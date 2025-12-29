@@ -16,6 +16,8 @@ public class HolidayServerBlockLootTableProvider extends FabricBlockLootTablePro
     public void generate() {
         this.addDrop(HolidayServerBlocks.REDSTONE_SAND);
         this.addDrop(HolidayServerBlocks.TINY_POTATO);
+        this.addDrop(HolidayServerBlocks.GOLDEN_HOPPER);
+        this.addDrop(HolidayServerBlocks.ENDER_PARALYZER);
 
         this.lootTables.forEach((key, lootTable) -> {
             lootTable.randomSequenceId(key.getValue());
