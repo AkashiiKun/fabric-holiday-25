@@ -48,7 +48,7 @@ public abstract class WitherEntityMixin extends HostileEntity implements WitherE
         cancellable = true
     )
     private void shootSkullAtMixin(int headIndex, double targetX, double targetY, double targetZ, boolean charged, CallbackInfo ci) {
-        if (!this.isSilent()) {
+        if (!this.isSilent() && !this.fabric_holiday_25$isInOverWorld()) {
             this.getEntityWorld().syncWorldEvent(null, WorldEvents.WITHER_SHOOTS, this.getBlockPos(), 0);
         }
 
