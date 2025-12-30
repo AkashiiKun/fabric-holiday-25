@@ -3,11 +3,9 @@ package holiday;
 import java.util.concurrent.CompletableFuture;
 
 import holiday.baritone.BaritoneInit;
-import holiday.block.HolidayServerBlocks;
 import holiday.item.HolidayServerItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.block.Blocks;
 import net.minecraft.data.recipe.RecipeExporter;
 import net.minecraft.data.recipe.RecipeGenerator;
 import net.minecraft.item.Items;
@@ -54,7 +52,7 @@ public class HolidayServerRecipeProvider extends FabricRecipeProvider {
 
                 this.offer2x2CompactingRecipe(RecipeCategory.DECORATIONS, HolidayServerItems.TINY_POTATO, Items.POTATO);
 
-                this.createShaped(RecipeCategory.MISC, HolidayServerItems.ENDER_PARALYZER)
+                this.createShaped(RecipeCategory.MISC, HolidayServerItems.TELE_INHIBITOR)
                     .input('#', Items.TWISTING_VINES)
                     .input('E', Items.ENDER_EYE)
                     .input('O', Items.OBSIDIAN)
