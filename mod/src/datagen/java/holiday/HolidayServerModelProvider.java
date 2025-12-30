@@ -6,18 +6,13 @@ import holiday.item.HolidayServerItems;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.data.*;
 import net.minecraft.client.render.model.json.ModelVariant;
 import net.minecraft.client.render.model.json.WeightedVariant;
 import net.minecraft.item.Item;
 import net.minecraft.state.property.Properties;
-import net.minecraft.state.property.Property;
 import net.minecraft.util.collection.Pool;
 import net.minecraft.util.math.Direction;
-
-import java.util.List;
-import java.util.Optional;
 
 public class HolidayServerModelProvider extends FabricModelProvider {
     public HolidayServerModelProvider(FabricDataOutput output) {
@@ -29,7 +24,7 @@ public class HolidayServerModelProvider extends FabricModelProvider {
         generator.registerSimpleCubeAll(HolidayServerBlocks.REDSTONE_SAND);
         generator.registerNorthDefaultHorizontalRotatable(HolidayServerBlocks.TINY_POTATO);
         this.registerHopper(generator, HolidayServerBlocks.GOLDEN_HOPPER);
-        this.registerPreModeled(generator, HolidayServerBlocks.ENDER_PARALYZER);
+        this.registerPreModeled(generator, HolidayServerBlocks.TELE_INHIBITOR);
     }
 
     @Override
