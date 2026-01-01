@@ -52,6 +52,14 @@ public final class HolidayServerBlocks {
         .mapColor(MapColor.PURPLE)
     ));
 
+    public static final Block ATTRIBUTE_TABLE = register("attribute_table", settings -> new AttributeTableBlock(settings
+        .mapColor(MapColor.OAK_TAN)
+        .instrument(NoteBlockInstrument.BASS)
+        .strength(2.5F)
+        .sounds(BlockSoundGroup.WOOD)
+        .burnable()
+    ));
+
     private HolidayServerBlocks() {
     }
 

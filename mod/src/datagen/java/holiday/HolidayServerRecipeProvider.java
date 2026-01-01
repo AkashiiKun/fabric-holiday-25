@@ -9,6 +9,7 @@ import net.minecraft.data.recipe.RecipeGenerator;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.tag.ItemTags;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -135,6 +136,15 @@ public class HolidayServerRecipeProvider extends FabricRecipeProvider {
                     .input('I', Items.IRON_INGOT)
                     .input('N', Items.NETHER_STAR)
                     .criterion("has_nether_star", this.conditionsFromItem(Items.NETHER_STAR))
+                    .offerTo(exporter);
+
+                this.createShaped(RecipeCategory.MISC, HolidayServerItems.ATTRIBUTE_TABLE)
+                    .input('C', Items.COPPER_INGOT)
+                    .input('P', ItemTags.PLANKS)
+                    .pattern("CC")
+                    .pattern("PP")
+                    .pattern("PP")
+                    .criterion("has_copper_ingot", this.conditionsFromItem(Items.COPPER_INGOT))
                     .offerTo(exporter);
             }
         };

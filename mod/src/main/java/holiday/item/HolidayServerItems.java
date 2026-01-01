@@ -82,6 +82,10 @@ public final class HolidayServerItems {
         .useBlockPrefixedTranslationKey())
     );
 
+    public static final Item ATTRIBUTE_TABLE = register("attribute_table", settings -> new BlockItem(HolidayServerBlocks.ATTRIBUTE_TABLE, settings
+        .useBlockPrefixedTranslationKey())
+    );
+
     public static Item register(String id, Item.Settings settings) {
         return register(keyOf(id), Item::new, settings);
     }
@@ -103,32 +107,33 @@ public final class HolidayServerItems {
     }
 
     public static void register() {
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(entries -> {
-            entries.addAfter(Items.TURTLE_HELMET, ABSOLUTELY_SAFE_ARMOR);
+
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(entries ->
+            entries.addAfter(Items.TURTLE_HELMET, ABSOLUTELY_SAFE_ARMOR)
+        );
+
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> {
+            entries.addAfter(Items.MOJANG_BANNER_PATTERN, FABRIC_PATTERN_ITEM, TATER_PATTERN_ITEM);
+            entries.addAfter(Items.FLINT, GROUND_GRAVEL, FINE_GRAVEL);
+            entries.addBefore(Items.ECHO_SHARD, ECHO_DUST);
         });
 
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register((itemGroup) -> {
-            itemGroup.addAfter(Items.MOJANG_BANNER_PATTERN, FABRIC_PATTERN_ITEM, TATER_PATTERN_ITEM);
-            itemGroup.addAfter(Items.FLINT, GROUND_GRAVEL, FINE_GRAVEL);
-            itemGroup.addBefore(Items.ECHO_SHARD, ECHO_DUST);
-
-            ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {
-                entries.addAfter(Items.PINK_SHULKER_BOX, STORAGE_TERMINAL);
-                entries.addBefore(Items.SKELETON_SKULL, TINY_POTATO);
-            });
-
-            ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> entries.addBefore(Items.SKELETON_SKULL, TINY_POTATO));
-
-            ItemGroupEvents.modifyEntriesEvent(ItemGroups.REDSTONE).register(entries -> {
-                entries.addAfter(Items.HOPPER, GOLDEN_HOPPER, HOPPER_MITE);
-                entries.addAfter(Items.REDSTONE_BLOCK, REDSTONE_SAND, TELE_INHIBITOR);
-            });
-
-            ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> {
-                entries.addAfter(Items.BONE_MEAL, STONE_MEAL);
-            });
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {
+            entries.addAfter(Items.PINK_SHULKER_BOX, STORAGE_TERMINAL);
+            entries.addBefore(Items.SKELETON_SKULL, TINY_POTATO);
+            entries.addAfter(Items.SMITHING_TABLE, ATTRIBUTE_TABLE);
         });
+
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.REDSTONE).register(entries -> {
+            entries.addAfter(Items.HOPPER, GOLDEN_HOPPER, HOPPER_MITE);
+            entries.addAfter(Items.REDSTONE_BLOCK, REDSTONE_SAND, TELE_INHIBITOR);
+        });
+
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries ->
+            entries.addAfter(Items.BONE_MEAL, STONE_MEAL)
+        );
     }
+
 
     public static Item register(String path, Function<Item.Settings, Item> factory) {
         RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, CommonEntrypoint.identifier(path));

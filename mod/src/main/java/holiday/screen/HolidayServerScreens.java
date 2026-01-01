@@ -8,5 +8,6 @@ public final class HolidayServerScreens {
 
     public static void register() {
         HandledScreens.register(HolidayServerScreenHandlers.STORAGE_TERMINAL, StorageTerminalScreen::new);
+        HandledScreens.register(HolidayServerScreenHandlers.ATTRIBUTE_TABLE, AttributeTableScreen::new);
     }
 }

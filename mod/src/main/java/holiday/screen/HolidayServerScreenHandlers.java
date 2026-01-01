@@ -11,6 +11,7 @@ import net.minecraft.screen.ScreenHandlerType;
 
 public final class HolidayServerScreenHandlers {
     public static final ScreenHandlerType<StorageTerminalScreenHandler> STORAGE_TERMINAL = register("storage_terminal", StorageTerminalScreenHandler::new);
+    public static final ScreenHandlerType<AttributeTableScreenHandler> ATTRIBUTE_TABLE = register("attribute_table", AttributeTableScreenHandler::new);
 
     private HolidayServerScreenHandlers() {
     }

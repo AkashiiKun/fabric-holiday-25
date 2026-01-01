@@ -8,6 +8,7 @@ import holiday.state.HolidayServerProperties;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.data.*;
 import net.minecraft.client.render.model.json.ModelVariant;
 import net.minecraft.client.render.model.json.WeightedVariant;
@@ -36,6 +37,7 @@ public class HolidayServerModelProvider extends FabricModelProvider {
         this.registerHopper(generator, HolidayServerBlocks.GOLDEN_HOPPER);
         this.registerPreModeled(generator, HolidayServerBlocks.TELE_INHIBITOR);
         this.registerActivatable(generator, HolidayServerBlocks.CHUNK_LOADER);
+        this.registerColumnWithFront(generator, HolidayServerBlocks.ATTRIBUTE_TABLE);
     }
 
     @Override
@@ -108,5 +110,16 @@ public class HolidayServerModelProvider extends FabricModelProvider {
                             .register(true, weightedVariant2)
                             .register(false, weightedVariant)
                     ));
+    }
+
+    private void registerColumnWithFront(BlockStateModelGenerator generator, Block block) {
+        TextureMap textureMap = new TextureMap()
+            .put(TextureKey.PARTICLE, TextureMap.getSubId(block, "_front"))
+            .put(TextureKey.NORTH, TextureMap.getSubId(block, "_front"))
+            .put(TextureKey.UP, TextureMap.getSubId(block, "_end"))
+            .put(TextureKey.DOWN, TextureMap.getSubId(block, "_end"))
+            .put(TextureKey.SIDE, TextureMap.getSubId(block, "_side"));
+        generator.blockStateCollector
+            .accept(BlockStateModelGenerator.createSingletonBlockState(block, BlockStateModelGenerator.createWeightedVariant(Models.CUBE.upload(block, textureMap, generator.modelCollector))));
     }
 }

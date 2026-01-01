@@ -65,5 +65,6 @@
   "item.holiday-server-mod.echo_dust": "Echo Dust",
   "item.holiday-server-mod.baritone": "Baritone",
   "subtitles.baritone": "Baritone plays",
-  "block.holiday-server-mod.chunk_loader": "Chunk Loader"
+  "block.holiday-server-mod.chunk_loader": "Chunk Loader",
+  "block.holiday-server-mod.attribute_table": "Attribute Table"
 }
