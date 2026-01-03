@@ -28,6 +28,7 @@
     "SingleStackStorageMixin",
     "SlipperyMixin",
     "WhitelistCommandMixin",
+    "WitherChargeAttackGoalMixin",
     "WitherEntityMixin",
     "squared.WitherEntityMixinSquared"
   ],
