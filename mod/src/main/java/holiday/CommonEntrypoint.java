@@ -2,6 +2,7 @@ package holiday;
 
 import com.mojang.serialization.Codec;
 import holiday.block.HolidayServerBlocks;
+import holiday.block.entity.HolidayServerBlockEntityTypes;
 import holiday.component.HolidayServerDataComponentTypes;
 import holiday.item.HolidayServerItems;
 import holiday.loot.HolidayServerLootContextTypes;
@@ -59,6 +60,7 @@ public class CommonEntrypoint implements ModInitializer {
     @Override
     public void onInitialize() {
         HolidayServerBlocks.register();
+        HolidayServerBlockEntityTypes.register();
         HolidayServerDataComponentTypes.register();
         HolidayServerItems.register();
         HolidayServerLootContextTypes.register();

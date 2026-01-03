@@ -22,6 +22,10 @@ repositories {
 	// for more information about repositories.
 }
 
+loom {
+  accessWidenerPath = file("src/main/resources/holiday.accesswidener")
+}
+
 fabricApi {
 	configureDataGeneration {
 		modId = "holiday-server-mod"

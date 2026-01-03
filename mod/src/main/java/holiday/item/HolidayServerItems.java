@@ -21,6 +21,9 @@ import net.minecraft.util.Unit;
 import java.util.function.Function;
 
 public final class HolidayServerItems {
+    public static final Item INDUCER = register("inducer", settings -> new BlockItem(HolidayServerBlocks.INDUCER, settings
+            .useBlockPrefixedTranslationKey()));
+
     public static final Item REDSTONE_SAND = register("redstone_sand", settings -> new BlockItem(HolidayServerBlocks.REDSTONE_SAND, settings
             .useBlockPrefixedTranslationKey()));
 
@@ -87,6 +90,7 @@ public final class HolidayServerItems {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.REDSTONE).register(entries -> {
             entries.addAfter(Items.HOPPER, HOPPER_MITE);
             entries.addAfter(Items.REDSTONE_BLOCK, REDSTONE_SAND);
+            entries.addBefore(Items.DISPENSER, INDUCER);
         });
     }
 

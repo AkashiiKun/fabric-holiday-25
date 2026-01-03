@@ -22,6 +22,7 @@ public class HolidayServerModelProvider extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator generator) {
+        generator.registerDispenserLikeOrientable(HolidayServerBlocks.INDUCER);
         generator.registerSimpleCubeAll(HolidayServerBlocks.REDSTONE_SAND);
         generator.registerSingleton(HolidayServerBlocks.STORAGE_TERMINAL, TexturedModel.CUBE_TOP);
         generator.registerNorthDefaultHorizontalRotatable(HolidayServerBlocks.TINY_POTATO);
