@@ -89,7 +89,6 @@ public class AttributeTableScreenHandler extends ScreenHandler {
         }
 
         ItemStack output = left.copy();
-        output.setCount(1);
 
         Map<ModifierKey, Double> merged = new HashMap<>();
         mergeModifiers(left, merged);
