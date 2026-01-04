@@ -38,6 +38,10 @@ repositories {
   maven { url = "https://maven.bawnorton.com/releases" }
 }
 
+loom {
+  accessWidenerPath = file("src/main/resources/holiday.accesswidener")
+}
+
 fabricApi {
 	configureDataGeneration {
 		modId = "holiday-server-mod"

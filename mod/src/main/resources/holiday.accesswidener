@@ -1,0 +1,4 @@
+accessWidener v2 named
+
+accessible field net/minecraft/block/DispenserBlock DEFAULT_BEHAVIOR Lnet/minecraft/block/dispenser/ItemDispenserBehavior;
+accessible method net/minecraft/block/DispenserBlock getBehaviorForItem (Lnet/minecraft/item/ItemStack;)Lnet/minecraft/block/dispenser/DispenserBehavior;

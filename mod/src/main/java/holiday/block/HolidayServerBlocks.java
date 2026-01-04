@@ -14,6 +14,12 @@ import net.minecraft.util.ColorCode;
 import java.util.function.Function;
 
 public final class HolidayServerBlocks {
+    public static final Block INDUCER = register("inducer", settings -> new InducerBlock(settings
+            .mapColor(MapColor.STONE_GRAY)
+            .instrument(NoteBlockInstrument.BASEDRUM)
+            .requiresTool()
+            .strength(3.5f)));
+
     public static final Block REDSTONE_SAND = register("redstone_sand", settings -> new RedstoneSandBlock(new ColorCode(0xFFFF0000), settings
             .mapColor(MapColor.BRIGHT_RED)
             .instrument(NoteBlockInstrument.SNARE)
@@ -64,6 +70,7 @@ public final class HolidayServerBlocks {
     }
 
     public static void register() {
+        Registry.register(Registries.BLOCK_TYPE, CommonEntrypoint.identifier("inducer"), InducerBlock.CODEC);
         Registry.register(Registries.BLOCK_TYPE, CommonEntrypoint.identifier("redstone_sand"), RedstoneSandBlock.CODEC);
         Registry.register(Registries.BLOCK_TYPE, CommonEntrypoint.identifier("storage_terminal"), StorageTerminalBlock.CODEC);
         Registry.register(Registries.BLOCK_TYPE, CommonEntrypoint.identifier("tiny_potato"), TinyPotatoBlock.CODEC);
