@@ -1,13 +1,13 @@
 package holiday.screen;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
+import holiday.CommonEntrypoint;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -20,23 +20,26 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.NotNull;
 
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class AttributeTableScreenHandler extends ScreenHandler {
+
+    private final ScreenHandlerContext context;
+    private boolean updating = false;
 
     private final Inventory inventory = new SimpleInventory(3);
 
     public AttributeTableScreenHandler(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
         super(HolidayServerScreenHandlers.ATTRIBUTE_TABLE, syncId);
 
-
         this.addSlot(new Slot(inventory, 0, 15, 15));
-
         this.addSlot(new Slot(inventory, 1, 15, 52));
+
+        this.context = context;
 
         this.addSlot(new Slot(inventory, 2, 145, 39) {
             @Override
@@ -46,12 +49,8 @@ public class AttributeTableScreenHandler extends ScreenHandler {
 
             @Override
             public void onTakeItem(PlayerEntity player, ItemStack stack) {
-                inventory.setStack(0, ItemStack.EMPTY);
-                inventory.setStack(1, ItemStack.EMPTY);
+                finalizeCraft();
                 super.onTakeItem(player, stack);
-                context.run((world, pos) -> world.playSound(
-                    null, pos, SoundEvents.BLOCK_SMITHING_TABLE_USE, SoundCategory.BLOCKS, 1.0f, 1.0f
-                ));
             }
         });
 
@@ -69,66 +68,82 @@ public class AttributeTableScreenHandler extends ScreenHandler {
     }
 
     public AttributeTableScreenHandler(int syncId, PlayerInventory inv) {
-        this(syncId, inv, null);
+        this(syncId, inv, ScreenHandlerContext.EMPTY);
     }
 
     @Override
     public void onContentChanged(Inventory inv) {
-        if (inv != inventory) return;
+        if (inv != inventory || updating) return;
+
+        updating = true;
 
         ItemStack left = inventory.getStack(0);
         ItemStack right = inventory.getStack(1);
 
         if (left.isEmpty() || right.isEmpty()) {
-            if (!inventory.getStack(2).isEmpty()) inventory.setStack(2, ItemStack.EMPTY);
+            if (!inventory.getStack(2).isEmpty()) {
+                inventory.setStack(2, ItemStack.EMPTY);
+            }
+            updating = false;
             return;
         }
 
         ItemStack output = left.copy();
-        output.setCount(1);
 
-        Multimap<RegistryEntry<EntityAttribute>, @NotNull AttributeMod> modifiers = HashMultimap.create();
+        Map<ModifierKey, Double> merged = new HashMap<>();
+        mergeModifiers(left, merged);
+        mergeModifiers(right, merged);
 
-        copyModifiers(left, modifiers);
-        copyModifiers(right, modifiers);
+        if (!merged.isEmpty()) {
+            AttributeModifiersComponent.Builder builder =
+                AttributeModifiersComponent.builder();
 
-        if (!modifiers.isEmpty()) {
-            var builder = AttributeModifiersComponent.builder();
-            modifiers.forEach((attr, mod) ->
-                builder.add(attr, mod.m, mod.slot)
-            );
+            merged.forEach((key, value) -> {
+                double finalValue = value;
+
+                if (key.attribute() == EntityAttributes.ATTACK_SPEED) {
+                    finalValue = Math.max(finalValue, 0.01);
+                }
+
+                UUID id = UUID.randomUUID();
+
+                builder.add(
+                    key.attribute(),
+                    new EntityAttributeModifier(
+                        CommonEntrypoint.identifier("combined_" + id.toString().substring(0, 6)),
+                        finalValue,
+                        key.operation()
+                    ),
+                    AttributeModifierSlot.ANY
+                );
+            });
+
             output.set(DataComponentTypes.ATTRIBUTE_MODIFIERS, builder.build());
         }
 
-        ItemStack current = inventory.getStack(2);
-        if (!ItemStack.areEqual(output, current)) {
+        if (!ItemStack.areEqual(output, inventory.getStack(2))) {
             inventory.setStack(2, output);
         }
+
+        updating = false;
     }
 
-    private void copyModifiers(ItemStack stack, Multimap<RegistryEntry<EntityAttribute>, AttributeMod> modifiers) {
+    private void mergeModifiers(ItemStack stack, Map<ModifierKey, Double> merged) {
         AttributeModifiersComponent comp = stack.get(DataComponentTypes.ATTRIBUTE_MODIFIERS);
         if (comp == null) return;
 
         comp.modifiers().forEach(entry -> {
             EntityAttributeModifier m = entry.modifier();
-            UUID stableId = UUID.nameUUIDFromBytes(
-                (m.id().toString() + "_" + entry.slot().name()).getBytes(StandardCharsets.UTF_8)
+
+            ModifierKey key = new ModifierKey(
+                entry.attribute(),
+                m.operation()
             );
 
-            modifiers.put(
-                entry.attribute(),
-                new AttributeMod(
-                    new EntityAttributeModifier(
-                        Identifier.of(m.id().getNamespace(), m.id().getPath() + "_combined_" + stableId.toString().substring(0, 4)),
-                        m.value(),
-                        m.operation()
-                    ),
-                    entry.slot()
-                )
-            );
+            merged.merge(key, m.value(), Double::sum);
         });
     }
+
 
     @Override
     public ItemStack quickMove(PlayerEntity player, int slotIndex) {
@@ -144,10 +159,7 @@ public class AttributeTableScreenHandler extends ScreenHandler {
             if (!this.insertItem(stack, 3, this.slots.size(), true)) {
                 return ItemStack.EMPTY;
             }
-
-            inventory.setStack(0, ItemStack.EMPTY);
-            inventory.setStack(1, ItemStack.EMPTY);
-
+            finalizeCraft();
             slot.onQuickTransfer(stack, result);
         }
         else if (slotIndex < 2) {
@@ -170,7 +182,6 @@ public class AttributeTableScreenHandler extends ScreenHandler {
         return result;
     }
 
-
     @Override
     public boolean canUse(PlayerEntity player) {
         return true;
@@ -179,19 +190,47 @@ public class AttributeTableScreenHandler extends ScreenHandler {
     @Override
     public void onClosed(PlayerEntity player) {
         super.onClosed(player);
-        if (!this.inventory.isEmpty()) {
-            boolean bl = player.isRemoved() && player.getRemovalReason() != Entity.RemovalReason.CHANGED_DIMENSION;
-            boolean bl2 = player instanceof ServerPlayerEntity serverPlayerEntity && serverPlayerEntity.isDisconnected();
-            this.inventory.forEach(stack -> {
-                if (bl || bl2) {
-                    player.dropItem(stack, false);
-                } else if (player instanceof ServerPlayerEntity) {
-                    player.getInventory().offerOrDrop(stack);
-                }
-            });
 
+        boolean removed = player.isRemoved() &&
+            player.getRemovalReason() != Entity.RemovalReason.CHANGED_DIMENSION;
+        boolean disconnected = player instanceof ServerPlayerEntity sp && sp.isDisconnected();
+
+        for (int i = 0; i < 2; i++) {
+            ItemStack stack = inventory.getStack(i);
+            if (stack.isEmpty()) continue;
+
+            if (removed || disconnected) {
+                player.dropItem(stack, false);
+            } else if (player instanceof ServerPlayerEntity) {
+                player.getInventory().offerOrDrop(stack);
+            }
+
+            inventory.setStack(i, ItemStack.EMPTY);
         }
+
+        inventory.setStack(2, ItemStack.EMPTY);
     }
 
-        private record AttributeMod(EntityAttributeModifier m, AttributeModifierSlot slot) {}
+    private void finalizeCraft() {
+        inventory.setStack(0, ItemStack.EMPTY);
+        inventory.setStack(1, ItemStack.EMPTY);
+
+        if (this.context.get((world, pos) -> world == null || world.isClient(), true)) return;
+
+        this.context.run((world, pos) -> world.playSound(
+            null,
+            pos,
+            SoundEvents.BLOCK_SMITHING_TABLE_USE,
+            SoundCategory.BLOCKS,
+            1.0f,
+            1.0f
+        ));
+    }
+
+
+
+    private record ModifierKey(
+        RegistryEntry<EntityAttribute> attribute,
+        EntityAttributeModifier.Operation operation
+    ) {}
 }

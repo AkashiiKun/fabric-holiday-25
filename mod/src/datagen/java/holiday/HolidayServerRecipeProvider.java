@@ -39,6 +39,16 @@ public class HolidayServerRecipeProvider extends FabricRecipeProvider {
                         .criterion("has_loom", this.conditionsFromItem(Items.LOOM))
                         .offerTo(this.exporter);
 
+                this.createShaped(RecipeCategory.REDSTONE, HolidayServerItems.INDUCER)
+                        .input('R', Items.REDSTONE)
+                        .input('#', Items.COBBLESTONE)
+                        .input('X', Items.BOW)
+                        .pattern("#R#")
+                        .pattern("#X#")
+                        .pattern("#R#")
+                        .criterion("has_bow", this.conditionsFromItem(Items.BOW))
+                        .offerTo(this.exporter);
+
                 this.createShapeless(RecipeCategory.REDSTONE, HolidayServerItems.REDSTONE_SAND, 2)
                         .input(Items.REDSTONE)
                         .input(Items.SAND)

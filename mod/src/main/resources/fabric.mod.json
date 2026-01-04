@@ -26,6 +26,7 @@
   "mixins": [
     "holiday.mixins.json"
   ],
+  "accessWidener": "holiday.accesswidener",
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",

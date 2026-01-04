@@ -28,6 +28,7 @@ public class HolidayServerBlockTagProvider extends FabricTagProvider.BlockTagPro
                 .add(HolidayServerBlocks.ATTRIBUTE_TABLE);
 
         this.valueLookupBuilder(BlockTags.PICKAXE_MINEABLE)
+                .add(HolidayServerBlocks.INDUCER)
                 .add(HolidayServerBlocks.STORAGE_TERMINAL);
 
         this.valueLookupBuilder(BlockTags.SHOVEL_MINEABLE)

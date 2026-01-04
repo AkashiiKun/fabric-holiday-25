@@ -18,6 +18,7 @@
     "InventoryStorageImplAccessor",
     "ItemEntityMixin",
     "ItemStackMixin",
+    "ItemDispenserBehaviorMixin",
     "LivingEntityMixin",
     "LootContextTypesAccessor",
     "PointedDripstoneBlockMixin",
