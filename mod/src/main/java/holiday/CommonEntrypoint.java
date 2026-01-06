@@ -3,7 +3,6 @@ package holiday;
 import com.mojang.serialization.Codec;
 import holiday.baritone.BaritoneInit;
 import holiday.block.HolidayServerBlocks;
-import holiday.block.blockentity.HolidayServerBlockEntities;
 import holiday.block.entity.HolidayServerBlockEntityTypes;
 import holiday.component.HolidayServerDataComponentTypes;
 import holiday.entity.HolidayServerEntities;
@@ -27,6 +26,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.loot.condition.KilledByPlayerLootCondition;
 import net.minecraft.network.DisconnectionInfo;
 import net.minecraft.network.PacketByteBuf;
@@ -61,15 +61,15 @@ public class CommonEntrypoint implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     public static final String CURRENT_VERSION = FabricLoader.getInstance()
-            .getModContainer(MOD_ID)
-            .get()
-            .getMetadata()
-            .getVersion()
-            .getFriendlyString();
+        .getModContainer(MOD_ID)
+        .get()
+        .getMetadata()
+        .getVersion()
+        .getFriendlyString();
 
     private static final AttachmentType<Boolean> ANIMALS_REGENERATED_CHUNK_TYPE = AttachmentRegistry.create(
-            identifier("animals_regenerated"),
-            builder -> builder.initializer(() -> Boolean.FALSE).persistent(Codec.BOOL)
+        identifier("animals_regenerated"),
+        builder -> builder.initializer(() -> Boolean.FALSE).persistent(Codec.BOOL)
     );
 
     private static final Identifier EPORTAL_GAMERULE_ID = identifier("endportal_enabled");
@@ -86,7 +86,6 @@ public class CommonEntrypoint implements ModInitializer {
         HolidayServerLootContextTypes.register();
         HolidayServerScreenHandlers.register();
         HolidayServerSoundEvents.register();
-        HolidayServerBlockEntities.register();
         HolidayServerEffects.register();
         HolidayServerEntities.register();
         BaritoneInit.onInitialize();
@@ -130,6 +129,9 @@ public class CommonEntrypoint implements ModInitializer {
                 screenHandler.updateSearch(payload.search(), payload.skip());
             }
         });
+
+        PayloadTypeRegistry.playC2S().register(SelectAttributePayload.ID, SelectAttributePayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(SelectAttributePayload.ID, SelectAttributePayload.CODEC);
     }
 
     private static void disconnect(ServerConfigurationNetworkHandler handler, String currentVersion) {
@@ -160,7 +162,7 @@ public class CommonEntrypoint implements ModInitializer {
             return KEY;
         }
     }
-    
+
     public record RequestVersionPayload() implements CustomPayload {
         public static final CustomPayload.Id<RequestVersionPayload> ID = new CustomPayload.Id<>(Identifier.of("holiday-server-mod", "request_version"));
         public static final PacketCodec<PacketByteBuf, RequestVersionPayload> PACKET_CODEC = PacketCodec.unit(new RequestVersionPayload());
@@ -204,6 +206,7 @@ public class CommonEntrypoint implements ModInitializer {
                 }
         return false;
     }
+
     public record StorageTerminalSearchPayload(String search, int skip) implements CustomPayload {
         public static final CustomPayload.Id<StorageTerminalSearchPayload> ID = new CustomPayload.Id<>(Identifier.of("holiday-server-mod", "storage_terminal_search"));
         public static final PacketCodec<PacketByteBuf, StorageTerminalSearchPayload> PACKET_CODEC = PacketCodec.tuple(
@@ -221,5 +224,41 @@ public class CommonEntrypoint implements ModInitializer {
         public Id<? extends CustomPayload> getId() {
             return ID;
         }
+    }
+
+    public record SelectAttributePayload(int syncId, Identifier attributeId) implements CustomPayload {
+
+        public static final PacketCodec<PacketByteBuf, SelectAttributePayload> CODEC =
+            CustomPayload.codecOf(
+                (payload, buf) -> {
+                    buf.writeInt(payload.syncId);
+                    buf.writeIdentifier(payload.attributeId);
+                },
+                buf -> new SelectAttributePayload(buf.readInt(), buf.readIdentifier())
+            );
+
+        public static final CustomPayload.Id<SelectAttributePayload> ID =
+            new CustomPayload.Id<>(CommonEntrypoint.identifier("attribute_table_modifier"));
+
+        @Override
+        public CustomPayload.Id<? extends CustomPayload> getId() {
+            return ID;
+        }
+
+        public void encode(PacketByteBuf buf) {
+            buf.writeInt(syncId);
+            buf.writeIdentifier(attributeId);
+        }
+
+        public static SelectAttributePayload decode(PacketByteBuf buf) {
+            int syncId = buf.readInt();
+            Identifier attrId = buf.readIdentifier();
+            return new SelectAttributePayload(syncId, attrId);
+        }
+
+        public EntityAttribute resolveAttribute() {
+            return Registries.ATTRIBUTE.get(attributeId);
+        }
+
     }
 }
