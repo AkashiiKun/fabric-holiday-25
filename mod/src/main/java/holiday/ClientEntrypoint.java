@@ -4,6 +4,7 @@ import holiday.baritone.BaritoneInit;
 import holiday.block.HolidayServerBlocks;
 import holiday.client.render.HeartEntityModel;
 import holiday.client.render.HeartEntityRenderer;
+import holiday.client.render.WitherCrownFeatureRenderer;
 import holiday.entity.HolidayServerEntities;
 import holiday.item.HolidayServerItems;
 import holiday.mixin.GameMenuScreenAccessor;
@@ -13,6 +14,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientConfigurationNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.RenderPipelines;
@@ -23,6 +25,7 @@ import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.BlockRenderLayer;
 import net.minecraft.client.render.entity.EntityRendererFactories;
+import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -41,6 +44,7 @@ public class ClientEntrypoint implements ClientModInitializer {
     private static final Tooltip ABSOLUTELY_SAFE_EXIT_TOOLTIP = Tooltip.of(Text.translatable("item.holiday-server-mod.absolutely_safe_armor.exit_tooltip"));
 
     public static final EntityModelLayer HEART_LAYER = new EntityModelLayer(CommonEntrypoint.identifier("heart"), "main");
+    public static final EntityModelLayer WITHER_CROWN_LAYER = new EntityModelLayer(CommonEntrypoint.identifier("player"), "hat");
 
     @Override
     public void onInitializeClient() {
@@ -77,6 +81,13 @@ public class ClientEntrypoint implements ClientModInitializer {
         EntityRendererFactories.register(HolidayServerEntities.HEART_ENTITY, HeartEntityRenderer::new);
 
         EntityModelLayerRegistry.registerModelLayer(HEART_LAYER, HeartEntityModel::getTexturedModelData);
+
+        LivingEntityFeatureRendererRegistrationCallback.EVENT.register((entityType, entityRenderer, registrationHelper, context) -> {
+            if (entityRenderer instanceof PlayerEntityRenderer<?> playerEntityRenderer) {
+                //registrationHelper.register(new WitherCrownFeatureRenderer(playerEntityRenderer, context.getModelSet()));
+                registrationHelper.register(new WitherCrownFeatureRenderer(playerEntityRenderer, context.getEntityModels()));
+            }
+        });
     }
 
     private static void afterTitleScreenRender(Screen screen, DrawContext drawContext, int mouseX, int mouseY, float tickDelta) {
