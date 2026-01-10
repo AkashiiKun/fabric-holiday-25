@@ -13,9 +13,14 @@ public class WitherCrownEntityModel extends PlayerEntityModel {
         ModelData modelData = PlayerEntityModel.getTexturedModelData(Dilation.NONE, false);
         ModelPartData modelPartData = modelData.getRoot().resetChildrenParts();
         ModelPartData modelPartData2 = modelPartData.getChild(EntityModelPartNames.HEAD);
-        ModelPartBuilder modelPartBuilder = ModelPartBuilder.create().uv(24, 0).cuboid(-3.0F, -6.0F, -1.0F, 6.0F, 6.0F, 1.0F, new Dilation(1.0F));
-        modelPartData2.addChild(EntityModelPartNames.LEFT_EAR, modelPartBuilder, ModelTransform.origin(-6.0F, -6.0F, 0.0F));
-        modelPartData2.addChild(EntityModelPartNames.RIGHT_EAR, modelPartBuilder, ModelTransform.origin(6.0F, -6.0F, 0.0F));
-        return TexturedModelData.of(modelData, 64, 64);
+
+        ModelPartBuilder modelPartBuilder = ModelPartBuilder.create().uv(0, -3).cuboid(-4.0F, -16.0F, -4.0F, 0.0F, 8.0F, 8.0F, new Dilation(0.0F));
+
+        modelPartData2.addChild("hat", modelPartBuilder
+            .uv(0, -3).cuboid(4.0F, -16.0F, -4.0F, 0.0F, 8.0F, 8.0F, new Dilation(0.0F))
+            .uv(0, 5).cuboid(-4.0F, -16.0F, -4.0F, 8.0F, 8.0F, 0.0F, new Dilation(0.0F))
+            .uv(0, 5).cuboid(-4.0F, -16.0F, 4.0F, 8.0F, 8.0F, 0.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, 0.0F, 0.0F)); // y = 24.0F
+
+        return TexturedModelData.of(modelData, 26, 13);
     }
 }
