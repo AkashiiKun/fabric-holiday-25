@@ -91,7 +91,11 @@ public final class HolidayServerItems {
 
     public static final Item WITHER_CROWN = register("wither_crown", new Item.Settings()
         .maxCount(1)
-        .equippable(EquipmentSlot.HEAD)
+        //.equippable(EquipmentSlot.HEAD)
+        .component(DataComponentTypes.EQUIPPABLE, EquippableComponent.builder(EquipmentSlot.HEAD)
+            .swappable(true)
+            .model(HolidayServerEquipmentAssetKeys.WITHER_CROWN)
+            .build())
     );
 
     public static Item register(String id, Item.Settings settings) {

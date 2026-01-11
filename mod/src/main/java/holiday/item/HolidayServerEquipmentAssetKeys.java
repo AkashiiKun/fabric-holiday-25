@@ -9,6 +9,8 @@ public final class HolidayServerEquipmentAssetKeys {
     private HolidayServerEquipmentAssetKeys() {}
 
     public static final RegistryKey<EquipmentAsset> ABSOLUTELY_SAFE_ARMOR = of("absolutely_safe_armor");
+    // essentially just an empty file to not render the item on the head
+    public static final RegistryKey<EquipmentAsset> WITHER_CROWN = of("wither_crown");
 
     public static RegistryKey<EquipmentAsset> of(String path) {
         return RegistryKey.of(EquipmentAssetKeys.REGISTRY_KEY, CommonEntrypoint.identifier(path));
