@@ -1,29 +1,47 @@
 package holiday.mixin;
 
+import holiday.ClientEntrypoint;
 import holiday.CommonEntrypoint;
+import holiday.idkwheretoputthis.WitherEntityRendererExtension;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.WitherEntityRenderer;
+import net.minecraft.client.render.entity.model.WitherEntityModel;
 import net.minecraft.client.render.entity.state.WitherEntityRenderState;
+import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.dimension.DimensionTypes;
+import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+@Debug(export = true)
 @Mixin(WitherEntityRenderer.class)
-public abstract class WitherEntityRendererMixin {
+public abstract class WitherEntityRendererMixin extends MobEntityRenderer<WitherEntity, WitherEntityRenderState, WitherEntityModel> implements WitherEntityRendererExtension {
 
-    //@Unique
-    //private static final Identifier FRIENDLY_TEXTURE = CommonEntrypoint.identifier("textures/entity/wither/friendly_wither.png");
-
-    //@Unique
-    //private static final Identifier FRIENDLY_INVULNERABLE_TEXTURE = CommonEntrypoint.identifier("textures/entity/wither/friendly_wither_invulnerable.png");
+    @Unique
+    private WitherEntityModel tatherModel;
 
     @Unique
     private static final Identifier TINY_TATHER_TEXTURE = CommonEntrypoint.identifier("textures/entity/wither/tiny_tather.png");
+
+    private WitherEntityRendererMixin(EntityRendererFactory.Context context, WitherEntityModel entityModel, float f) {
+        super(context, entityModel, f);
+    }
+
+    @Inject(
+        method = "<init>",
+        at = @At("TAIL")
+    )
+    private void injectInit(EntityRendererFactory.Context context, CallbackInfo ci) {
+        this.tatherModel = new WitherEntityModel(context.getPart(ClientEntrypoint.TATHER_LAYER));
+    }
 
     @Inject(
         method = "getTexture(Lnet/minecraft/client/render/entity/state/WitherEntityRenderState;)Lnet/minecraft/util/Identifier;",
@@ -54,5 +72,10 @@ public abstract class WitherEntityRendererMixin {
     )
     private float modifyScale(float scale) {
         return 1.5f;
+    }
+
+    @Override
+    public WitherEntityModel fabric_holiday_25$getTatherModel() {
+        return this.tatherModel;
     }
 }

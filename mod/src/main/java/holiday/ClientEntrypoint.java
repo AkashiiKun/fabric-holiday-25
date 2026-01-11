@@ -5,6 +5,7 @@ import holiday.block.HolidayServerBlocks;
 import holiday.client.render.HeartEntityModel;
 import holiday.client.render.HeartEntityRenderer;
 import holiday.client.render.WitherCrownFeatureRenderer;
+import holiday.client.render.model.TatherEntityModel;
 import holiday.client.render.model.WitherCrownEntityModel;
 import holiday.entity.HolidayServerEntities;
 import holiday.event.GetModelsCallback;
@@ -25,6 +26,7 @@ import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.model.Dilation;
 import net.minecraft.client.render.BlockRenderLayer;
 import net.minecraft.client.render.entity.EntityRendererFactories;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
@@ -47,6 +49,7 @@ public class ClientEntrypoint implements ClientModInitializer {
 
     public static final EntityModelLayer HEART_LAYER = new EntityModelLayer(CommonEntrypoint.identifier("heart"), "main");
     public static final EntityModelLayer WITHER_CROWN_LAYER = new EntityModelLayer(CommonEntrypoint.identifier("player"), "hat");
+    public static final EntityModelLayer TATHER_LAYER = new EntityModelLayer(CommonEntrypoint.identifier("tather"), "main");
 
     @Override
     public void onInitializeClient() {
@@ -92,6 +95,7 @@ public class ClientEntrypoint implements ClientModInitializer {
 
         GetModelsCallback.EVENT.register((builder) -> {
             builder.put(WITHER_CROWN_LAYER, WitherCrownEntityModel.getTexturedModelData());
+            builder.put(TATHER_LAYER, TatherEntityModel.getTexturedModelData(Dilation.NONE));
         });
     }
 
