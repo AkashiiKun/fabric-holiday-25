@@ -1,13 +1,13 @@
 name = "Arke"
-filename = "arke-1.0.0+1.21.11.jar"
+filename = "arke-1.0.1+1.21.11.jar"
 side = "both"
 
 [download]
-url = "https://cdn.modrinth.com/data/cGgMT4Fy/versions/TRc3wyrE/arke-1.0.0%2B1.21.11.jar"
+url = "https://cdn.modrinth.com/data/cGgMT4Fy/versions/hRKfIOVO/arke-1.0.1%2B1.21.11.jar"
 hash-format = "sha512"
-hash = "a943fa1775c2b454654832621cdff4264cde1c070222342aee20d695ab3eaa3c75f16c827476222f0712ec62f54a4567f315cbdcae2d97d69cf260aca4761806"
+hash = "82a82621fa458ac0c8d721f3a8a028f2ca593144db4fe335ba45c33029c9fbbd772c89ab1b06f1fc5a2f395e2b28854a614872986584863145ff92df78af73a3"
 
 [update]
 [update.modrinth]
 mod-id = "cGgMT4Fy"
-version = "TRc3wyrE"
+version = "hRKfIOVO"

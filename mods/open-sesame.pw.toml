@@ -1,13 +1,13 @@
 name = "Open Sesame"
-filename = "open_sesame-fabric-1.21.6-1.0.4.jar"
+filename = "open-sesame-1.0.5+1.21.11.jar"
 side = "both"
 
 [download]
 hash-format = "sha1"
-hash = "7b2911533101d463b12cb3462bb9031f6ef06ea2"
+hash = "9c4477d2ffb211e49d14eb86481c06820191dbe7"
 mode = "metadata:curseforge"
 
 [update]
 [update.curseforge]
-file-id = 7327023
+file-id = 7471163
 project-id = 1282518
